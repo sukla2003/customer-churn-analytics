@@ -14,7 +14,7 @@ from sklearn.metrics import accuracy_score
 
 # Load Dataset
 df = pd.read_csv(
-    "../dataset/WA_Fn-UseC_-Telco-Customer-Churn.csv"
+    "dataset/WA_Fn-UseC_-Telco-Customer-Churn.csv"
 )
 
 # Drop ID
