@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    Executive Insights Dashboard
+</h2>
+
+<div class="row">
+
+    <div class="col-md-3">
+        <div class="card shadow border-0">
+            <div class="card-body text-center">
+                <h2>{{ total }}</h2>
+                <p>Total Predictions</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow border-0">
+            <div class="card-body text-center">
+                <h2>{{ high_risk }}</h2>
+                <p>High Risk Customers</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow border-0">
+            <div class="card-body text-center">
+                <h2>{{ avg_probability }}%</h2>
+                <p>Average Risk Score</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow border-0">
+            <div class="card-body text-center">
+                <h2>{{ churn_rate }}%</h2>
+                <p>Forecast Churn Rate</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row mt-4">
+
+    <div class="col-md-6">
+
+        <div class="card shadow">
+
+            <div class="card-header">
+                Revenue At Risk
+            </div>
+
+            <div class="card-body">
+
+                <h1>
+                    ₹{{ revenue_at_risk }}
+                </h1>
+
+                <p>
+                    Estimated revenue potentially lost from high-risk customers.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+        <div class="card shadow">
+
+            <div class="card-header">
+                Customer Risk Assessment
+            </div>
+
+            <div class="card-body">
+
+                {% if avg_probability >= 70 %}
+                    <div class="alert alert-danger">
+                        High overall churn risk detected.
+                    </div>
+
+                {% elif avg_probability >= 40 %}
+                    <div class="alert alert-warning">
+                        Moderate churn risk detected.
+                    </div>
+
+                {% else %}
+                    <div class="alert alert-success">
+                        Customer base appears stable.
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card mt-4 shadow">
+
+    <div class="card-header">
+        Top Churn Drivers
+    </div>
+
+    <div class="card-body">
+
+        <table class="table table-bordered">
+
+            <thead>
+
+                <tr>
+                    <th>Feature</th>
+                    <th>Importance</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>Total Charges</td>
+                    <td>Very High</td>
+                </tr>
+
+                <tr>
+                    <td>Monthly Charges</td>
+                    <td>Very High</td>
+                </tr>
+
+                <tr>
+                    <td>Tenure</td>
+                    <td>High</td>
+                </tr>
+
+                <tr>
+                    <td>Contract Type</td>
+                    <td>Medium</td>
+                </tr>
+
+                <tr>
+                    <td>Payment Method</td>
+                    <td>Medium</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<div class="card mt-4 shadow">
+
+    <div class="card-header">
+        Strategic Recommendations
+    </div>
+
+    <div class="card-body">
+
+        <div class="alert alert-primary">
+            Offer retention discounts to month-to-month customers.
+        </div>
+
+        <div class="alert alert-success">
+            Promote one-year and two-year contract plans.
+        </div>
+
+        <div class="alert alert-warning">
+            Monitor customers with high monthly charges.
+        </div>
+
+        <div class="alert alert-danger">
+            Launch targeted campaigns for high-risk customers.
+        </div>
+
+        <div class="alert alert-info">
+            Reward long-tenure customers with loyalty benefits.
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

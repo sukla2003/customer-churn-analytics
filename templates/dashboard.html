@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    Analytics Dashboard
+</h2>
+
+<a href="/export"
+   class="btn btn-success mb-4">
+    Download CSV Report
+</a>
+
+<div class="row">
+
+    <div class="col-md-3">
+        <div class="metric-card">
+            <h3>{{ total }}</h3>
+            <p>Total Predictions</p>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="metric-card">
+            <h3>{{ churn }}</h3>
+            <p>Churn Predictions</p>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="metric-card">
+            <h3>{{ stay }}</h3>
+            <p>Stay Predictions</p>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="metric-card">
+            <h3>{{ high_risk }}</h3>
+            <p>High Risk Customers</p>
+        </div>
+    </div>
+
+</div>
+
+<div class="row mt-4">
+
+    <div class="col-md-6">
+
+        <div class="card shadow">
+
+            <div class="card-header">
+                Churn Distribution
+            </div>
+
+            <div class="card-body">
+
+                <canvas id="pieChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+        <div class="card shadow">
+
+            <div class="card-header">
+                Prediction Summary
+            </div>
+
+            <div class="card-body">
+
+                <h4>
+                    Average Probability:
+                    {{ avg_probability }}%
+                </h4>
+
+                <hr>
+
+                <h5>
+                    Churn Rate:
+                    {% if total > 0 %}
+                        {{ ((churn / total) * 100)|round(2) }}%
+                    {% else %}
+                        0%
+                    {% endif %}
+                </h5>
+
+                <hr>
+
+                <h5>
+                    High Risk Customers:
+                    {{ high_risk }}
+                </h5>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- TREND CHART -->
+
+<div class="card mt-4 shadow">
+
+    <div class="card-header">
+        Prediction Trend
+    </div>
+
+    <div class="card-body">
+
+        <canvas id="trendChart"></canvas>
+
+    </div>
+
+</div>
+
+<!-- RECENT PREDICTIONS -->
+
+<div class="card mt-4 shadow">
+
+    <div class="card-header">
+        Recent Predictions
+    </div>
+
+    <div class="card-body">
+
+        <table class="table table-striped table-hover">
+
+            <thead>
+
+            <tr>
+                <th>ID</th>
+                <th>Prediction</th>
+                <th>Probability</th>
+                <th>Timestamp</th>
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for row in recent_predictions %}
+
+            <tr>
+
+                <td>{{ row.id }}</td>
+                <td>{{ row.prediction }}</td>
+                <td>{{ row.probability }}%</td>
+                <td>{{ row.created_at }}</td>
+
+            </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- PIE CHART -->
+
+<script>
+
+const pieCtx =
+document.getElementById('pieChart');
+
+new Chart(pieCtx, {
+
+    type: 'pie',
+
+    data: {
+
+        labels: [
+            'Churn',
+            'Stay'
+        ],
+
+        datasets: [{
+
+            data: [
+                {{ churn }},
+                {{ stay }}
+            ]
+
+        }]
+
+    }
+
+});
+
+</script>
+
+<!-- TREND CHART -->
+
+<script>
+
+const trendCtx =
+document.getElementById('trendChart');
+
+new Chart(trendCtx, {
+
+    type: 'line',
+
+    data: {
+
+        labels:
+        {{ trend_labels | tojson }},
+
+        datasets: [{
+
+            label: 'Predictions',
+
+            data:
+            {{ trend_values | tojson }},
+
+            fill: false,
+
+            tension: 0.3
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        plugins: {
+
+            legend: {
+
+                display: true
+
+            }
+
+        }
+
+    }
+
+});
+
+</script>
+
+{% endblock %}

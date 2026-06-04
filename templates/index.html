@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    Customer Churn Prediction
+</h2>
+
+<div class="row mb-4">
+
+    <div class="col-md-4">
+        <div class="metric-card">
+            <h3>7043</h3>
+            <p>Total Customers</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="metric-card">
+            <h3>1869</h3>
+            <p>Churn Customers</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="metric-card">
+            <h3>26.54%</h3>
+            <p>Churn Rate</p>
+        </div>
+    </div>
+
+</div>
+
+<div class="card shadow">
+
+    <div class="card-header">
+        <h4>Predict Customer Churn</h4>
+    </div>
+
+    <div class="card-body">
+
+        <form action="/predict" method="POST">
+
+            <div class="row">
+
+                <div class="col-md-4 mb-3">
+                    <label>Gender</label>
+                    <select class="form-control" name="gender">
+                        <option>Female</option>
+                        <option>Male</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label>Tenure</label>
+                    <input type="number"
+                           class="form-control"
+                           name="tenure"
+                           required>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label>Monthly Charges</label>
+                    <input type="number"
+                           step="0.01"
+                           class="form-control"
+                           name="MonthlyCharges"
+                           required>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label>Total Charges</label>
+                    <input type="number"
+                           step="0.01"
+                           class="form-control"
+                           name="TotalCharges"
+                           required>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label>Internet Service</label>
+                    <select class="form-control"
+                            name="InternetService">
+
+                        <option>DSL</option>
+                        <option>Fiber optic</option>
+                        <option>No</option>
+
+                    </select>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label>Contract</label>
+                    <select class="form-control"
+                            name="Contract">
+
+                        <option>Month-to-month</option>
+                        <option>One year</option>
+                        <option>Two year</option>
+
+                    </select>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label>Payment Method</label>
+
+                    <select class="form-control"
+                            name="PaymentMethod">
+
+                        <option>Bank transfer (automatic)</option>
+                        <option>Credit card (automatic)</option>
+                        <option>Electronic check</option>
+                        <option>Mailed check</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <button class="btn btn-primary">
+                Predict Churn
+            </button>
+
+            <a href="/history"
+               class="btn btn-success">
+                View History
+            </a>
+
+            <a href="/dashboard"
+               class="btn btn-warning">
+                Dashboard
+            </a>
+
+        </form>
+
+        {% if prediction %}
+
+        <div class="alert alert-info mt-4">
+
+            <h4>{{ prediction }}</h4>
+
+            <h5>
+                Probability:
+                {{ probability }}%
+            </h5>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

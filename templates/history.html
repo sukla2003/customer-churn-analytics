@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    Prediction History
+</h2>
+
+<div class="card">
+
+    <div class="card-body">
+        <form method="GET"
+      action="/history"
+      class="mb-3">
+
+    <input
+        type="text"
+        name="search"
+        class="form-control"
+        placeholder="Search Churn or Stay">
+
+</form>
+        <table class="table table-striped table-bordered">
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Prediction</th>
+                    <th>Probability (%)</th>
+                    <th>Timestamp</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for row in predictions %}
+
+                <tr>
+
+                    <td>{{ row.id }}</td>
+                    <td>{{ row.prediction }}</td>
+                    <td>{{ row.probability }}</td>
+                    <td>{{ row.created_at }}</td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

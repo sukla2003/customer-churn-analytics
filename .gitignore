@@ -1,0 +1,11 @@
+venv/
+__pycache__/
+*.pyc
+
+predictions.csv
+
+.env
+
+postgresql_17.exe
+
+dataset/
